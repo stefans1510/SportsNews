@@ -1,18 +1,17 @@
 <?php
-require_once 'classes/User.php';
+require_once 'User.php';
 
 class UserController
 {
     private $user;
 
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        $this->user = new User;
     }
 
     public function register()
     {
-        if(isset($_POST['register'])) {
             $username = $_POST['username'];
             $email = $_POST['email'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -27,21 +26,18 @@ class UserController
             ];
 
             if($this->user->create($data)) {
-                header('Location: login.php');
+                header('Location: ../login.php');
             } else {
                 echo "Registration failed";
             }
-        }
     }
 
     public function login()
     {
-        if(isset($_POST['login'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
 
-            $user = new User();
-            $userData = $user->read($username);
+            $userData = $this->user->read($username);
 
             if($userData && password_verify($password, $userData['password'])) {
                 $_SESSION['user_id'] = $userData['id'];
@@ -63,6 +59,20 @@ class UserController
             } else {
                 echo "Invalid username or password";
             }
-        }
+    }
+}
+
+$init = new UserController;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    switch ($_POST['action']) {
+        case 'register':
+            $init->register();
+            break;
+        case 'login':
+            $init->login();
+            break;
+        default:
+             header('Location: index.php');
     }
 }

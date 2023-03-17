@@ -1,5 +1,6 @@
 <?php
-require_once 'classes/Server.php';
+require_once 'Crud.php';
+require_once 'Server.php';
 
 class User implements Crud
 {
@@ -9,7 +10,7 @@ class User implements Crud
     public function __construct()
     {
         $this->db = new Server;
-        $this->conn = $this->db->getConnection();
+        $this->conn = $this->db->connect();
     }
 
     public function create($data)
@@ -28,7 +29,7 @@ class User implements Crud
         }
     }
 
-    public function read($username= null)
+    public function read($username=null)
     {
         if ($username) {
             $sql = "SELECT * FROM users WHERE username = :username";

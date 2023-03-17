@@ -5,13 +5,13 @@ if (!isset($_SESSION)) {
 
 class Server
 {
-    private $host = 'localhost';
-    private $username = 'root';
-    private $password = '';
-    private $database = 'sportsnews';
+    private $host;
+    private $username;
+    private $password;
+    private $database;
     public $conn;
 
-    public function __construct($host, $username, $password, $database)
+    public function __construct($host = 'localhost', $username = 'root', $password = '', $database = 'sportsnews')
     {
         $this->host = $host;
         $this->username = $username;
@@ -19,7 +19,7 @@ class Server
         $this->database = $database;
     }
 
-    public function getConnection()
+    public function connect()
     {
         $this->conn = null;
         try {
