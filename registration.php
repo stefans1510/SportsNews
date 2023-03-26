@@ -1,4 +1,4 @@
-<form method="post" action="UserController.php">
+<form method="post" action="classes/UserController.php">
     <input type="hidden" name="action" value="register">
 
     <label for="username">Username:</label>
